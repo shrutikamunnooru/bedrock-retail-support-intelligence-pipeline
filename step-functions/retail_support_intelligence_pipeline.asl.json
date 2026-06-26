@@ -1,0 +1,58 @@
+{
+  "Comment": "Retail support intelligence pipeline orchestrated across Glue, Lambda, Athena-backed Bedrock brief generation, and S3 layers.",
+  "StartAt": "RetailSupportIntelligencePipeline",
+  "States": {
+    "BronzeToSilverStandardize": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Arguments": {
+        "JobName": "<BRONZE_TO_SILVER_GLUE_JOB_NAME>"
+      },
+      "Next": "TicketEnrichment"
+    },
+    "TicketEnrichment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Arguments": {
+        "FunctionName": "<TICKET_ENRICHMENT_LAMBDA_ARN>"
+      },
+      "OutputPath": "$.Payload",
+      "Next": "TicketEmbeddings"
+    },
+    "TicketEmbeddings": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Arguments": {
+        "FunctionName": "<TICKET_EMBEDDINGS_LAMBDA_ARN>"
+      },
+      "OutputPath": "$.Payload",
+      "Next": "TicketSimilarity"
+    },
+    "TicketSimilarity": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Arguments": {
+        "FunctionName": "<TICKET_SIMILARITY_LAMBDA_ARN>"
+      },
+      "OutputPath": "$.Payload",
+      "Next": "BuildGoldSupportMart"
+    },
+    "BuildGoldSupportMart": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Arguments": {
+        "JobName": "<BUILD_GOLD_GLUE_JOB_NAME>"
+      },
+      "Next": "DailyOpsBrief"
+    },
+    "DailyOpsBrief": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Arguments": {
+        "FunctionName": "<DAILY_OPS_BRIEF_LAMBDA_ARN>"
+      },
+      "OutputPath": "$.Payload",
+      "End": true
+    }
+  }
+}
