@@ -51,6 +51,17 @@ Orchestrated by: `step-functions/retail_support_intelligence_pipeline.asl.json`
 
 ---
 
+## 📸 Screenshots
+
+| | |
+|---|---|
+| **Step Functions execution (success)** | <img width="600" alt="Step Functions execution success" src="https://github.com/user-attachments/assets/671ab595-ed9b-4dd2-a481-de9e419660d9" /> |
+| **Generated daily operations brief** | <img width="600" alt="Generated daily operations brief" src="https://github.com/user-attachments/assets/c77ceaef-49de-43cd-9c7b-2f844f532b37" /> |
+| **Gold-layer S3 outputs** | <img width="600" alt="Gold-layer S3 outputs" src="https://github.com/user-attachments/assets/16cc9514-2039-4ec7-a4e7-90e13257cd18" /> |
+| **Athena query — high-risk orders** | <img width="600" alt="Athena query high-risk orders" src="https://github.com/user-attachments/assets/57d28901-ed1e-4592-995f-cd689d42089e" /> |
+
+---
+
 ## ✨ How Amazon Bedrock Is Used
 
 Bedrock is integrated at three distinct stages, each with a different job.
